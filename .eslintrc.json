@@ -1,0 +1,13 @@
+{
+    "extends": ["airbnb-base"],
+    "rules": {
+        "linebreak-style": "off",
+        "implicit-arrow-linebreak": "off",
+        "function-paren-newline": "off",
+        "func-names": "off",
+        "object-curly-newline": "off",
+        "quotes": ["error", "single", { "allowTemplateLiterals": true }],
+        "max-len": ["error", 120],
+        "indent": ["error", 4]
+    }
+}

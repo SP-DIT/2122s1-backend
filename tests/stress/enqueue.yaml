@@ -1,0 +1,26 @@
+config:
+    target: 'http://localhost:3000'
+    timeout: 1
+    phases:
+        - name: Warm up
+          duration: 10
+          arrivalRate: 5
+        - name: Ramp up load
+          duration: 10
+          arrivalRate: 5
+          rampTo: 15
+        - name: Sustain load
+          duration: 30
+          arrivalRate: 15
+        - name: Ramp down load
+          duration: 10
+          arrivalRate: 15
+          rampTo: 5
+        - name: Sustain low load
+          duration: 10
+          arrivalRate: 5
+scenarios:
+    - name: 'Sustained Enqueue'
+      flow:
+          - post:
+                url: '/queue'

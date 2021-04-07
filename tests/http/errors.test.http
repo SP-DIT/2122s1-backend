@@ -1,0 +1,11 @@
+@host = http://localhost:3000
+
+### Not Found
+GET {{host}}/afjsdlfjsdl HTTP/1.1
+
+### Error Rate
+GET {{host}}/stats/errors?duration=2&from=2021-03-24T02%3A59%3A54
+
+# require('./commons');
+# const util = require('./utils');
+# encodeURIComponent(util.now().subtract(1, 'minute').format('YYYY-MM-DDTHH:mm:ss'))

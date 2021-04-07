@@ -1,0 +1,12 @@
+config:
+    target: 'http://localhost:3000'
+    timeout: 1
+    phases:
+        - name: Sustain
+          duration: 100
+          arrivalRate: 11
+scenarios:
+    - name: 'Uniform Dequeue'
+      flow:
+          - delete:
+                url: '/queue'
