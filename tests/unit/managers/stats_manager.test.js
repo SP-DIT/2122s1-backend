@@ -30,7 +30,6 @@ it('Should reject with rejected value', function () {
 });
 
 console.log('Getting Logged Errors');
-
 const revertStatsManagerGetErrorLogs = makeRevertFunction(databaseManager, 'getErrorLogs');
 function testGetErrorsSuccess(description, databaseResponseValue) {
     it(description, function () {
