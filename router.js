@@ -48,3 +48,5 @@ app.use((error, req, res, next) => {
     // Log and respond accordingly.
     statsManager.logErrors(status, payload).finally(() => res.status(status).json(payload));
 });
+
+module.exports = app;

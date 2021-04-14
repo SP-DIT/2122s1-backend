@@ -1,43 +1,38 @@
-const databaseManager = require('../../../managers/db_manager');
+const { it, run, makeRevertFunction } = require('../../test_driver');
+const dbManager = require('../../../managers/db_manager');
 const queueManager = require('../../../managers/queue_manager');
 
-jest.mock('../../../managers/db_manager');
+const revertDbManagerDequeue = makeRevertFunction(dbManager, 'dequeue');
 
-describe('Enqueue', function () {
-    function testEnqueueSuccess(description, databaseResponseValue) {
-        it(description, function () {
-            databaseManager.enqueue.mockResolvedValue(databaseResponseValue);
-            return expect(queueManager.enqueue()).resolves.toStrictEqual({ customer_id: databaseResponseValue });
-        });
-    }
-    testEnqueueSuccess('Should return correct success format - min', 1);
-    testEnqueueSuccess('Should return correct success format - mid', Math.round(Number.MAX_SAFE_INTEGER / 2));
-    testEnqueueSuccess('Should return correct success format - max', Number.MAX_SAFE_INTEGER);
-
-    it('Should reject with the rejected value', function () {
-        const databaseResponseValue = 9999;
-        const rejectedValue = new Error(databaseResponseValue);
-        databaseManager.enqueue.mockRejectedValue(rejectedValue);
-        return expect(queueManager.enqueue()).rejects.toBe(rejectedValue);
-    });
+// use `it` to add tests.
+it('should resolve dequeue correctly', function () {
+    dbManager.dequeue = function () {
+        return Promise.resolve(12);
+    };
+    // Important: Return the promise
+    return queueManager
+        .dequeue()
+        .then(
+            (result) =>
+                JSON.stringify(result) ==
+                JSON.stringify({
+                    customer_id: 12,
+                }),
+        )
+        .then(revertDbManagerDequeue);
 });
 
-describe('Dequeue', function () {
-    function testDequeueSuccess(description, databaseResponseValue) {
-        it(description, function () {
-            databaseManager.dequeue.mockResolvedValue(databaseResponseValue);
-            return expect(queueManager.dequeue()).resolves.toStrictEqual({ customer_id: databaseResponseValue });
-        });
-    }
-
-    testDequeueSuccess('Should return correct success format - min', 0);
-    testDequeueSuccess('Should return correct success format - mid', Math.round(Number.MAX_SAFE_INTEGER / 2));
-    testDequeueSuccess('Should return correct success format - max', Number.MAX_SAFE_INTEGER);
-
-    it('Should reject with rejected value', function () {
-        const databaseResponseValue = 9999;
-        const rejectedValue = new Error(databaseResponseValue);
-        databaseManager.dequeue.mockRejectedValue(rejectedValue);
-        return expect(queueManager.dequeue()).rejects.toBe(rejectedValue);
-    });
+it('Should reject dequeue correctly', function () {
+    dbManager.dequeue = function () {
+        return Promise.reject('ERROR!');
+    };
+    return queueManager
+        .dequeue()
+        .then(() => false)
+        .catch((error) => error === 'ERROR!')
+        .then(revertDbManagerDequeue);
 });
+
+// Run the tests
+// Important: Keep this as the last line
+run();

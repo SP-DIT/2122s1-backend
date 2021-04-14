@@ -5,7 +5,12 @@ const databaseManager = require('./db_manager');
  * Error Logging
  */
 module.exports.logErrors = function (statusCode, payload) {
-    return databaseManager.logError(statusCode, JSON.stringify(payload));
+    try {
+        const payloadJson = JSON.stringify(payload);
+        return databaseManager.logError(statusCode, payloadJson);
+    } catch (error) {
+        return Promise.reject(error);
+    }
 };
 
 /**
