@@ -15,7 +15,7 @@ database.getPool = function () {
 };
 
 const fetch = require('node-fetch');
-const testPort = process.env.DB_TEST_PORT;
+const testPort = 3456;
 const url = `http://localhost:${testPort}`;
 
 it('Should respond with status = 404', function () {
