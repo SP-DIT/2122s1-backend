@@ -9,6 +9,7 @@
 2. Install [Docker](https://docs.docker.com/get-docker/) if you have not done so.
     1. Check if you have installed Docker previously by running `docker -v`
         1. You should see the version number (e.g. `Docker version 20.10.2, build 2291f61`)
+    1. Alternatively, you can choose to use ElephantSql, read [this document on how to setup usage of ElephantSql](https://ichatspedu-my.sharepoint.com/:w:/g/personal/jeremiah_ang_ichat_sp_edu_sg/EezU03_gzC9Oj1rqDB3Cb84BHrsPtcpa1wizMFS81_dykg?e=M8Y1JZ)
 3. Install [VS Code](https://code.visualstudio.com/download) if you have not done so previously.
 4. Install the following VS Code Plugins
     1. [Better Comments](https://marketplace.visualstudio.com/items?itemName=aaron-bond.better-comments)
@@ -27,11 +28,14 @@
     DB_PASSWORD=password
     DB_DATABASE=virtual_queue
     DB_TEST_PORT=6543
+    DB_TEST_CONNECTION_STRING=
     ```
 
 ## Run
 
-1. Start the database by executing the following:
+1. (For Docker setup) Start the database by executing the following:
+
+    > For ElephantSql users, skip this step and simply ensure to run the content in `./database/init.sql` to create the minimally required tables.
 
     ```
     npm run start-db
@@ -90,6 +94,15 @@
             "error": "GET /afjsdlfjsdl Not Found"
         }
         ```
+
+4. Terminate your backend by pressing `CTRL+C` in the terminal running the backend. You should observe the following logs:
+
+    ```
+    =================== Closing web connections...
+    =================== Closing web server...
+    =================== Web server closed. Closing database connection...
+    =================== Database connection closed.
+    ```
 
 ## Test
 
