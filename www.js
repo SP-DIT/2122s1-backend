@@ -29,7 +29,7 @@ function shutdown() {
     console.info(chalk.red('=================== Closing web connections...'));
     Object.keys(connectionMap).forEach((connectionId) => connectionMap[connectionId].end());
     console.info(chalk.red('=================== Closing web server...'));
-    io.close(() => {
+    server.close(() => {
         console.info(chalk.red('=================== Web server closed. Closing database connection...'));
         tearDown()
             .then(() => {
